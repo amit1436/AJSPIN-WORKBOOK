@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1H-NMR-Workbook Pro - Amit Jangra</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; padding: 20px; background-color: #000; color: #ffffff; display: flex; justify-content: center; }
+        .card { background: rgba(28, 28, 30, 0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); padding: 25px; border-radius: 20px; width: 100%; max-width: 1050px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
+        select { background: #1c1c1e; color: #fff; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 5px; outline: none; }
+        .main-title { text-align: center; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 2px; }
+        .sub-title { text-align: center; color: #8e8e93; margin-bottom: 20px; font-size: 0.85rem; }
+        .config-row { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+        .config-item { background: #1c1c1e; padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.15); text-align: left; }
+        .config-item label { display: block; font-size: 0.6rem; font-weight: 700; color: #8e8e93; text-transform: uppercase; margin-bottom: 2px; }
+        .grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .section { padding: 10px; border-radius: 14px; background: #1c1c1e; border-top: 4px solid; display: flex; flex-direction: column; }
+        .s-box { border-color: #ff9500; } .d-box { border-color: #007aff; } .t-box { border-color: #34c759; }
+        .q-box { border-color: #5856d6; } .dd-box { border-color: #ff2d55; } .dt-box { border-color: #007aff; }
+        .td-box { border-color: #34c759; } .m-box { border-color: #af52de; } .brs-box { border-color: #bf360c; }
+        h3 { font-size: 0.65rem; text-transform: uppercase; margin-bottom: 8px; color: #8e8e93; text-align: center; }
+        .input-group { display: flex; gap: 5px; margin-bottom: 8px; }
+        .bulk-input { flex: 1; padding: 8px; background: rgba(120, 120, 128, 0.1); border: none; border-radius: 8px; color: #fff; text-align: center; font-size: 0.8rem; outline: none; }
+        .add-h-btn { padding: 0 8px; background: #34c759; border: none; border-radius: 6px; color: #fff; font-weight: bold; cursor: pointer; font-size: 0.7rem; }
+        .j-display { font-size: 1.25rem; font-weight: 900; color: #34c759; text-align: center; margin-top: auto; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); min-height: 24px; font-family: monospace; }
+        .queue-container { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 5px; min-height: 25px; }
+        .temp-peak { background: #fff; color: #000; padding: 3px 8px; border-radius: 15px; font-weight: 700; font-size: 0.75rem; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        #final-list-area { background: #fff; padding: 25px; border-radius: 15px; color: #000; margin-top: 15px; min-height: 100px; }
+        .copy-target { font-family: 'Times New Roman', serif; font-size: 12pt; }
+        .footer-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .action-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; font-size: 0.9rem; }
+        .primary-btn { background: #0A84FF; color: #fff; }
+    </style>
+</head>
+<body onload="loadData()">
+
+<div class="card">
+    <div class="main-title">1H-NMR-Workbook Pro</div>
+    <div class="sub-title">by Amit Jangra</div>
+
+    <div class="config-row">
+        <div class="config-item"><label>MHz</label><input type="number" id="spec_freq" value="400" style="width:60px; background: transparent; color: white; border: none; font-weight: 600;" onchange="autoSave()"></div>
+        <div class="config-item">
+            <label>Solvent</label>
+            <select id="solvent_select" onchange="autoSave()">
+                <option value="CDCl<sub>3</sub>">CDCl3</option>
+                <option value="DMSO-d<sub>6</sub>">DMSO-d6</option>
+                <option value="MeOD">MeOD</option>
+                <option value="C<sub>6</sub>D<sub>6</sub>">C6D6</option>
+                <option value="D<sub>2</sub>O">D2O</option>
+                <option value="Acetone-d<sub>6</sub>">Acetone-d6</option>
+                <option value="CD<sub>2</sub>Cl<sub>2</sub>">CD2Cl2</option>
+                <option value="CD<sub>3</sub>CN">CD3CN</option>
+                <option value="C<sub>5</sub>D<sub>5</sub>N">Pyridine-d5</option>
+                <option value="TFA-d">TFA-d</option>
+                <option value="Toluene-d<sub>8</sub>">Toluene-d8</option>
+                <option value="THF-d<sub>8</sub>">THF-d8</option>
+                <option value="DMF-d<sub>7</sub>">DMF-d7</option>
+                <option value="CD<sub>3</sub>NO<sub>2</sub>">CD3NO2</option>
+                <option value="Methanol-d<sub>4</sub>">Methanol-d4</option>
+            </select>
+        </div>
+        <div class="config-item">
+            <label>Journal Style</label>
+            <select id="style_select" onchange="autoSave()">
+                <option value="standard">Standard</option>
+                <option value="jacs">JACS Style</option>
+                <option value="angew">Angewandte</option>
+                <option value="acs">ACS Style</option>
+                <option value="rsc">RSC Style</option>
+                <option value="nature">Nature</option>
+                <option value="cell">Cell Press</option>
+                <option value="wiley">Wiley</option>
+                <option value="elsevier">Elsevier</option>
+                <option value="mdpi">MDPI</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <div class="section s-box"><h3>Singlet (s)</h3><div class="input-group"><input type="text" class="bulk-input" placeholder="PPM..." onkeydown="if(event.key==='Enter') processS(this, 's')"><button class="add-h-btn" onclick="quickAdd('s')">+H</button></div><div class="queue-container" id="q_s"></div><div id="j_s" class="j-display"></div></div>
+        <div class="section d-box"><h3>Doublet (d)</h3><div class="input-group"><input type="text" class="bulk-input" onkeydown="if(event.key==='Enter') processD(this)"><button class="add-h-btn" onclick="quickAdd('d')">+H</button></div><div class="queue-container" id="q_d"></div><div id="j_d" class="j-display"></div></div>
+        <div class="section t-box"><h3>Triplet (t)</h3><div class="input-group"><input type="text" class="bulk-input" onkeydown="if(event.key==='Enter') processT(this)"><button class="add-h-btn" onclick="quickAdd('t')">+H</button></div><div class="queue-container" id="q_t"></div><div id="j_t" class="j-display"></div></div>
+        <div class="section q-box"><h3>Quartet (q)</h3><div class="input-group"><input type="text" class="bulk-input" onkeydown="if(event.key==='Enter') processQ(this)"><button class="add-h-btn" onclick="quickAdd('q')">+H</button></div><div class="queue-container" id="q_q"></div><div id="j_q" class="j-display"></div></div>
+        <div class="section dd-box"><h3>dd</h3><div class="input-group"><input type="text" class="bulk-input" onkeydown="if(event.key==='Enter') processDD(this)"><button class="add-h-btn" onclick="quickAdd('dd')">+H</button></div><div class="queue-container" id="q_dd"></div><div id="j_dd" class="j-display"></div></div>
+        <div class="section dt-box"><h3>dt</h3><div class="input-group"><input type="text" class="bulk-input" onkeydown="if(event.key==='Enter') processDT(this)"><button class="add-h-btn" onclick="quickAdd('dt')">+H</button></div><div class="queue-container" id="q_dt"></div><div id="j_dt" class="j-display"></div></div>
+        <div class="section td-box"><h3>td</h3><div class="input-group"><input type="text" class="bulk-input" onkeydown="if(event.key==='Enter') processTD(this)"><button class="add-h-btn" onclick="quickAdd('td')">+H</button></div><div class="queue-container" id="q_td"></div><div id="j_td" class="j-display"></div></div>
+        <div class="section brs-box"><h3>Broad s</h3><div class="input-group"><input type="text" class="bulk-input" placeholder="PPM..." onkeydown="if(event.key==='Enter') processS(this, 'br s')"><button class="add-h-btn" onclick="quickAdd('brs')">+H</button></div><div class="queue-container" id="q_brs"></div><div id="j_brs" class="j-display"></div></div>
+        <div class="section m-box"><h3>Multiplet (m)</h3><div class="input-group"><input type="text" class="bulk-input" placeholder="Range" onkeydown="if(event.key==='Enter') processM(this)"><button class="add-h-btn" onclick="quickAdd('m')">+H</button></div><div class="queue-container" id="q_m"></div><div id="j_m" class="j-display"></div></div>
+    </div>
+
+    <div style="text-align:center;"><button class="action-btn primary-btn" onclick="updateReport()" style="max-width:220px; padding:10px;">UPDATE FINAL REPORT</button></div>
+
+    <div id="final-list-area">
+        <div id="copy-target" class="copy-target" contenteditable="true">Final report generates here...</div>
+    </div>
+
+    <div class="footer-btns">
+        <button class="action-btn primary-btn" onclick="copyReport()">COPY FULL REPORT</button>
+        <button class="action-btn" style="background:#3a3a3c; color:#fff;" onclick="clearAll()">RESET EVERYTHING</button>
+    </div>
+</div>
+
+<script>
+    let peaks = { s:[], d:[], t:[], q:[], dd:[], dt:[], td:[], brs:[], m:[] };
+    const getRedTag = (n) => `<font color="#FF0000"><span class="h-label" contenteditable="true">${n}H</span></font>`;
+    const parse = (s) => s.trim().split(/[\s,]+/).map(Number).filter(n => !isNaN(n));
+    
+    // ROUNDING J-VALUES: 3.08 -> 3.1
+    function roundOne(n) { return (Math.round(parseFloat(n) * 10) / 10).toFixed(1); }
+    
+    // ROUNDING PPM VALUES: 3rd Decimal Rule: 6+ up, 5 down (e.g., 7.8194 -> 7.82)
+    function roundTwo(n) {
+        let s = parseFloat(n).toFixed(4);
+        let parts = s.split('.');
+        if (parts.length < 2) return parseFloat(n).toFixed(2);
+        let decimals = parts[1];
+        let d3 = parseInt(decimals[2]);
+        let roundedBase = parseFloat(parts[0] + "." + decimals.substring(0, 2));
+        return (d3 >= 6) ? (roundedBase + 0.01).toFixed(2) : roundedBase.toFixed(2);
+    }
+
+    function renderQueues() {
+        for(let type in peaks) {
+            const container = document.getElementById('q_' + type);
+            const jDisp = document.getElementById('j_' + type);
+            if(!container) continue;
+            
+            container.innerHTML = peaks[type].map((p, idx) => `
+                <div class="temp-peak" data-type="${type}" data-idx="${idx}">
+                    <span class="ppm-val" contenteditable="true">${p.val}</span>
+                    <span style="margin:0 5px;">(${getRedTag(p.h)}, ${p.label || type})</span>
+                    <span style="color:#ff3b30; cursor:pointer;" onclick="removePeak('${type}', ${idx})">×</span>
+                </div>
+            `).join('');
+
+            const last = peaks[type][peaks[type].length - 1];
+            if(last && last.js) {
+                jDisp.innerHTML = last.js.map((j, i) => `<i>J<sub>${i+1}</sub></i> = ${roundOne(j)} Hz`).join(", ");
+            } else if(last && last.jVal) {
+                jDisp.innerHTML = `<i>J</i> = ${roundOne(last.jVal)} Hz`;
+            } else { jDisp.innerText = ""; }
+        }
+    }
+
+    function quickAdd(type) {
+        const last = peaks[type][peaks[type].length - 1];
+        if(last) { last.h++; renderQueues(); autoSave(); }
+    }
+
+    function processS(el, label) { parse(el.value).forEach(v => peaks[label==='s'?'s':'brs'].push({val: roundTwo(v), h: 1, label: label})); el.value = ''; renderQueues(); autoSave(); }
+    function processD(el) { const v = parse(el.value).sort((a,b)=>b-a); if(v.length===2) peaks.d.push({val: roundTwo((v[0]+v[1])/2), h: 1, raw: v, jVal: Math.abs(v[0]-v[1])*document.getElementById('spec_freq').value}); el.value=''; renderQueues(); autoSave(); }
+    
+    function processT(el) { 
+        const v = parse(el.value).sort((a,b)=>b-a); 
+        if(v.length===3) {
+            const f = document.getElementById('spec_freq').value;
+            peaks.t.push({val: roundTwo((v[0]+v[2])/2), h: 1, jVal: Math.max(Math.abs(v[0]-v[1]), Math.abs(v[1]-v[2])) * f});
+        }
+        el.value=''; renderQueues(); autoSave(); 
+    }
+    
+    function processQ(el) { 
+        const v = parse(el.value).sort((a,b)=>b-a); 
+        if(v.length===4) {
+            const f = document.getElementById('spec_freq').value;
+            peaks.q.push({val: roundTwo((v[0]+v[3])/2), h: 1, jVal: Math.max(Math.abs(v[0]-v[1]), Math.abs(v[1]-v[2]), Math.abs(v[2]-v[3])) * f});
+        }
+        el.value=''; renderQueues(); autoSave(); 
+    }
+    
+    function processDD(el) {
+        const v = parse(el.value).sort((a,b)=>b-a); 
+        if(v.length>=4) {
+            const f = document.getElementById('spec_freq').value;
+            const finalJ1 = Math.max(Math.abs(v[0]-v[2])*f, Math.abs(v[1]-v[3])*f);
+            const finalJ2 = Math.max(Math.abs(v[0]-v[1])*f, Math.abs(v[2]-v[3])*f);
+            peaks.dd.push({val: roundTwo((v[0]+v[3])/2), h: 1, js: [finalJ1, finalJ2]});
+        }
+        el.value=''; renderQueues(); autoSave();
+    }
+
+    function processDT(el) {
+        const v = parse(el.value).sort((a,b)=>b-a);
+        if(v.length>=6) {
+            const f = document.getElementById('spec_freq').value;
+            const finalJ1 = Math.abs(v[1]-v[4]) * f;
+            const finalJ2 = Math.max(Math.abs(v[0]-v[1])*f, Math.abs(v[1]-v[2])*f, Math.abs(v[3]-v[4])*f, Math.abs(v[4]-v[5])*f);
+            peaks.dt.push({val: roundTwo((v[0]+v[5])/2), h: 1, js: [finalJ1, finalJ2]});
+        }
+        el.value=''; renderQueues(); autoSave();
+    }
+
+    function processTD(el) {
+        const v = parse(el.value).sort((a,b)=>b-a);
+        if(v.length>=6) {
+            const f = document.getElementById('spec_freq').value;
+            const finalJ1 = Math.max(Math.abs(v[0]-v[2])*f, Math.abs(v[1]-v[3])*f, Math.abs(v[2]-v[4])*f, Math.abs(v[3]-v[5])*f);
+            const finalJ2 = Math.max(Math.abs(v[0]-v[1])*f, Math.abs(v[2]-v[3])*f, Math.abs(v[4]-v[5])*f);
+            peaks.td.push({val: roundTwo((v[0]+v[5])/2), h: 1, js: [finalJ1, finalJ2]});
+        }
+        el.value=''; renderQueues(); autoSave();
+    }
+
+    function processM(el) { 
+        const v = parse(el.value).sort((a,b)=>b-a); 
+        if(v.length>=2) {
+            let high = roundTwo(v[0]);
+            let low = roundTwo(v[v.length-1]);
+            peaks.m.push({val: `${high}–${low}`, h: 1}); 
+        }
+        el.value=''; renderQueues(); autoSave(); 
+    }
+
+    function updateReport() {
+        const freq = document.getElementById('spec_freq').value;
+        const solv = document.getElementById('solvent_select').value;
+        const style = document.getElementById('style_select').value;
+        let data = [];
+        document.querySelectorAll('.temp-peak').forEach(node => {
+            const ppm = node.querySelector('.ppm-val').innerText;
+            const hCount = node.querySelector('.h-label').innerText.replace('H','');
+            const type = node.getAttribute('data-type');
+            const idx = node.getAttribute('data-idx');
+            let jHtml = "";
+            const pData = peaks[type][idx];
+            if(pData) {
+                if(['d','t','q'].includes(type) && pData.jVal) {
+                    jHtml = `, <i>J</i> = ${roundOne(pData.jVal)} Hz`;
+                } else if(['dd','dt','td'].includes(type) && pData.js) {
+                    jHtml = `, <i>J<sub>1</sub></i> = ${roundOne(pData.js[0])} Hz, <i>J<sub>2</sub></i> = ${roundOne(pData.js[1])} Hz`;
+                }
+            }
+            data.push({ ppm: parseFloat(ppm) || 0, html: `${ppm} (${getRedTag(hCount)}, ${pData.label || type}${jHtml})` });
+        });
+        data.sort((a,b) => b.ppm - a.ppm);
+        let totalH = 0;
+        data.forEach(d => { const m = d.html.match(/>(\d+)H/); if(m) totalH += parseInt(m[1]); });
+        let prefix = `<sup>1</sup>H NMR (${freq} MHz, ${solv}): <i>δ<sub>H</sub></i> `;
+        if(style==='jacs') prefix = `<sup>1</sup>H NMR (<b>${freq} MHz</b>, ${solv}) <i>δ</i> `;
+        document.getElementById('copy-target').innerHTML = prefix + data.map(d => d.html).join(', ') + '.' + 
+            `<div style="margin-top: 2em; color: #FF0000;"><font color="#FF0000">Proton count: ${totalH}</font></div>`;
+    }
+
+    function removePeak(type, idx) { peaks[type].splice(idx, 1); renderQueues(); autoSave(); }
+    function autoSave() { localStorage.setItem('nmr_vpro_final_fix_m', JSON.stringify({ peaks, freq: document.getElementById('spec_freq').value, solv: document.getElementById('solvent_select').value, style: document.getElementById('style_select').value })); }
+    function loadData() {
+        const saved = JSON.parse(localStorage.getItem('nmr_vpro_final_fix_m'));
+        if(saved) { peaks = saved.peaks; document.getElementById('spec_freq').value = saved.freq; document.getElementById('solvent_select').value = saved.solv; document.getElementById('style_select').value = saved.style; renderQueues(); }
+    }
+    function clearAll() { if(confirm("Clear everything?")) { localStorage.clear(); location.reload(); } }
+    function copyReport() {
+        const target = document.getElementById('copy-target');
+        const range = document.createRange(); range.selectNode(target);
+        window.getSelection().removeAllRanges(); window.getSelection().addRange(range);
+        document.execCommand("copy");
+    }
+</script>
+</body>
+</html>
