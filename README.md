@@ -12,7 +12,7 @@ Designed to replace manual Excel-based workflows like ASpin.
 * **Journal Formatting:** One-click export to ACS, RSC, and Wiley styles.
 
 ## 📖 How to Use
-For writing 1H NMR data
+For writing 1H NMR data-Download the html file double click on it and it will open in your default browser.
 1. Choose solvent, spectrometer frequency and journal styles.
 2. With the help of OCR tool like Capture2text select the peaks and insert them into each section.
 3. You can also enter the peaks manually, also you can insert the peaks in any order.
@@ -21,7 +21,7 @@ For writing 1H NMR data
 5. All the values are then displayed in descending order, also j1, j2 values are in descending order, also the final report is fully editable.
 6. Click " copy final report" and your 1H nmr data is ready to be pasted into manuscript.
 
-For writing 13C NMR data
+For writing 13C NMR data-Download the html file, double click on it and it will open in your default browser.
 1. Choose solvent, spectrometer frequency and journal styles.
 2. Paste all ppm values in the "input 13c value" section.
 3. After putting all the values in this section (values need not to be in any order), click convert & format.
