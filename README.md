@@ -3,7 +3,7 @@ A web-based environment for converting NMR peak data into journal-ready text.
 Designed to replace manual Excel-based workflows like ASpin.
 
 ## 🚀 Live Demo
-[Access the Tool Here]((https://github.com/amit1436/AJSPIN-WORKBOOK)/)
+[Access the Tool Here](https://github.com/amit1436/AJSPIN-WORKBOOK/)
 
 ## ✨ Key Features
 * **Zero-Installation:** Runs entirely in the browser.
